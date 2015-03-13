@@ -51,10 +51,8 @@ BeamExtended = function() {
     if (channel == 'ifstudios') {
         styleChannel = 'IFstyle';
     } else if ((channel == 'mindlesspuppetz') || (channel == 'siggy') || (channel == 'blackhawk120') || (channel == 'ziteseve') || (channel == 'squeaker') || (channel == 'akujitube') || (channel == 'artdude543') || (channel == 'lilmac21') || (channel == 'icanhascookie69') || (channel == 'cadillac_don')) {
-    // Probably a better way to do this...
+        // Probably a better way to do this...
         styleChannel = 'tssnStyle';
-    } else {
-        styleChannel = 'style'
     }
 
     var username = '';
@@ -148,13 +146,12 @@ BeamExtended = function() {
     });
     //endregion
 
-    // This is a cookie loader for the GlobalUsernames - Which makes every user on beam have a color
-    // It is currenlty not working
-    // document.cookie.split(';').forEach(function(part) {
-    //    if (part.trim().indexOf('BeXColors') === 0) {
-    //        secondColors = JSON.parse(part.split('=')[1].trim());
-    //    }
-    // })
+    //This is a cookie loader for the GlobalUsernames - Which makes every user on beam have a color
+    document.cookie.split(';').forEach(function(part) {
+        if (part.trim().indexOf('BeXColors') === 0) {
+            secondColors = JSON.parse(part.split('=')[1].trim());
+        }
+    });
 
     //region Chat Colors
     function getColors() {
@@ -213,11 +210,11 @@ BeamExtended = function() {
             if (channel == 'exuviax') {
                 $messages.append(
                     $('<div>')
-                    .addClass('message')
-                    .attr('data-role', 'ExuMessage').append(
+                        .addClass('message')
+                        .attr('data-role', 'ExuMessage').append(
                         $('<div>')
-                        .addClass('message-body')
-                        .html('Hey, I help create/maintain <a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended</a> v' + VERSION + '!<br> To see all my channel emotes and bot commands, go <a href=\"http://beamalerts.com/bex/exuviax\" target=\"_blank\"> here</a>')
+                            .addClass('message-body')
+                            .html('Hey, I help create/maintain <a href="https://github.com/ExuDev/BeamExtended" target="_blank">Beam Extended</a> v' + VERSION + '!<br> To see all my channel emotes and bot commands, go <a href=\"http://beamalerts.com/bex/exuviax\" target=\"_blank\"> here</a>')
                     )
                 );
             } else {
@@ -267,8 +264,6 @@ BeamExtended = function() {
     $('head').append($cssLink);
 
     function overrideMessageBody($messageBody) {
-        var messageRole = $messageBody.parent().attr('data-role');
-
         // Replace image links with images
         if (bexoptions.linkimages == true) {
             $messageBody.find('a').each(function() {
@@ -372,8 +367,9 @@ BeamExtended = function() {
                     var randomPicker = Math.floor(Math.random() * 16);
                     secondColors[messageAuthor] = colorWheel[randomPicker];
                     $this.find('.message-author').css('color', secondColors[messageAuthor]);
-                    // Here is more of the cookie loader, which is still not working.
-                    // document.cookie['BeXColors'] = JSON.stringify(secondColors);
+
+                    var expireDate = new Date(Date.now() + 2678400000);
+                    document.cookie = 'BeXColors=' + JSON.stringify(secondColors) + '; expires=' + expireDate.toUTCString();
                 }
             }
         }
@@ -408,11 +404,11 @@ BeamExtended = function() {
                 if (triggeredAlerts.indexOf(systemAlert[i]) > -1) continue;
                 $messages.append(
                     $('<div>')
-                    .addClass('message')
-                    .attr('data-role', 'ExuMessage').append(
+                        .addClass('message')
+                        .attr('data-role', 'ExuMessage').append(
                         $('<div>')
-                        .addClass('message-body')
-                        .html('<b>Beam Extended Alert</b><br>' + systemAlert[i])
+                            .addClass('message-body')
+                            .html('<b>Beam Extended Alert</b><br>' + systemAlert[i])
                     ));
                 triggeredAlerts.push(systemAlert[i]);
             }
